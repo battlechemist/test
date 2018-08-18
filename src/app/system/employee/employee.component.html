@@ -1,0 +1,47 @@
+<sd-delete-confirm-form
+  [delay]="delay"
+  [name]="employee.name"
+  (formIsConfirmed)="onSubmit($event)"
+  *ngIf="deleteFormIsVisible"></sd-delete-confirm-form>
+<div>
+  <table class="table employee-container">
+    <tr>
+      <td colspan="2"><h3>{{employee.name}}</h3></td>
+      <td rowspan="5" class="td-width15">
+        <div class="text-right" *ngIf="userType === 'admin'">
+          <button
+            class="btn btn-primary btn-lg btn-margin"
+            title="Редактировать"
+            (click)="openEditModal()"
+          >
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button
+            class="btn btn-primary btn-lg btn-margin"
+            title="Удалить"
+            (click)="openModal()"
+          >
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="td-width30"><b>Должность:</b></td><td>{{employee.position}}</td>
+    </tr>
+    <tr>
+      <td><b>Возраст:</b></td><td>{{employee.age | sdAge}}</td>
+    </tr>
+    <tr>
+      <td><b>Зарплата:</b></td><td>{{employee.salary | sdSalary}}</td>
+    </tr>
+    <tr>
+      <td><b>Тип занятости:</b></td><td>{{employmentTypes[employee.typeOfEmployment - 1].type}}</td>
+    </tr>
+    <tr>
+      <td colspan="3"><b>Биография:</b></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="td-bio"><em>{{employee.bio}}</em></td></tr>
+  </table>
+</div>

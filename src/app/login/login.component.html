@@ -1,0 +1,80 @@
+<div>
+  <div class="login-menu">
+    <div class="login-header">
+      <img src="../../assets/img.png" class="">
+      <span class="text-primary login-text">Реестр сотрудников</span>
+    </div>
+    <hr>
+    <div class="alert alert-{{message.type}}"
+         *ngIf="message.text"
+    >
+      {{message.text}}
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group"
+           [ngClass]="{'has-error': form.get('email').invalid && form.get('email').touched}"
+      >
+        <label>Введите адрес электронной почты</label>
+        <input
+          type="text"
+          [formControlName]="'email'"
+          class="form-control"
+        >
+        <div *ngIf="form.get('email').invalid
+          && form.get('email').touched"
+             class="text-danger"
+        >
+          Введите корректный email
+        </div>
+      </div>
+      <div class="form-group"
+           [ngClass]="{'has-error': form.get('password').invalid && form.get('password').touched}"
+      >
+        <label>Введите пароль</label>
+        <input
+          type="password"
+          [formControlName]="'password'"
+          class="form-control"
+        >
+        <div *ngIf="form.get('password').invalid
+          && form.get('password').touched"
+        >
+          <span *ngIf="form.get('password')
+            .errors['required']"
+                class="text-danger"
+          >
+            Пароль не должен быть пустым!
+          </span>
+          <span *ngIf="form.get('password')
+            .errors['lengthError']"
+                class="text-danger"
+          >
+            Пароль не должен быть короче {{charsCount}}-х символов!
+          </span>
+        </div>
+      </div>
+      <button
+        class="btn btn-primary btn-block btn-lg"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Войти
+      </button>
+    </form>
+    <hr>
+    <div>
+      <p>
+        Введите <strong>email: </strong> <span class="text-danger">admin@mail.ru</span>,
+        <strong>пароль: </strong> <span class="text-danger">12345</span>,
+        <br>
+        чтобы войти как Администратор.
+      </p>
+      <p>
+        Введите <strong>email: </strong> <span class="text-danger">user@mail.ru</span>,
+        <strong>пароль: </strong> <span class="text-danger">12345</span>,
+        <br>
+        чтобы войти как Пользователь.
+      </p>
+    </div>
+  </div>
+</div>

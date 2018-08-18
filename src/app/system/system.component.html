@@ -1,0 +1,95 @@
+<div class="container system">
+  <!--HEADER-->
+  <div class="row system-header sticky-top">
+    <div class="col-xs-10">
+      <div class="system-helper0">
+        <div>
+          <img src="../../assets/img.png" >
+        </div>
+        <div class="system-helper1">
+          <span class="user-name">{{user.name}}</span>
+          <span class="user-type">{{userMap[user.userType]}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2 text-center">
+      <button class='btn btn-primary btn-lg btn-block'  title="Выйти из системы" (click)="logout()">
+        <span class="glyphicon glyphicon-off"></span>
+      </button>
+    </div>
+  </div>
+  <!--/HEADER-->
+  <!--MAIN-->
+  <!--MODAL-->
+  <sd-system-form
+    *ngIf="modalWindowIsVisible"
+    [editEmployee]="editEmployee"
+    (formIsCanceled)="closeModal()"
+    (formIsSubmitted)="onSubmit()"
+  ></sd-system-form>
+  <!--/MODAL-->
+  <div class="row system-main">
+    <div class="col-xs-12">
+      <div class="system-helper0">
+        <span class=" text-primary system-text">Реестр сотрудников</span>
+        <button
+          (click)="openModal(-1)"
+          class="btn btn-default"
+          *ngIf="user.userType === 'admin'"
+        >
+          + Новый сотрудник
+        </button>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-inline pull-right">
+        <div class="form-group">
+          <label class="btn-margin" for="text">Фильтровать по:</label>
+          <input
+            id="text"
+            type="text"
+            class="form-control"
+            [placeholder]="searchPlaceholder"
+            [(ngModel)]="searchValue"
+          >
+          <div class="btn-group btn-margin" sdDropdown>
+            <button
+              type="button"
+              class="btn btn-default dropdown-toggle"
+              data-toggle="dropdown"
+            >
+              Параметр
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu cursor-pointer">
+              <li><a (click)="changeCriteria('name')">Фамилия</a></li>
+              <li><a (click)="changeCriteria('position')">Должность</a></li>
+              <li><a (click)="changeCriteria('age')">Возраст</a></li>
+              <li><a (click)="changeCriteria('salary')">Зарплата</a></li>
+              <li><a (click)="changeCriteria('typeOfEmployment')">Тип занятости</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <sd-loader *ngIf="!isLoaded" class="text-center"></sd-loader>
+      <div *ngIf="isLoaded">
+        <sd-employee
+          *ngFor="let e of employees | sdFilter:searchValue:searchField, let ndx = index "
+          [employee]="e"
+          [userType]="user.userType"
+          (employeeIsDeleted)="onDelete()"
+          (editModalIsOpen)="openModal($event)"
+        >
+        </sd-employee>
+      </div>
+    </div>
+  </div>
+  <!--/MAIN-->
+  <!--FOOTER-->
+  <div class="row system-footer ">
+    <div class="col-xs-12"></div>
+  </div>
+  <!--/FOOTER-->
+</div>

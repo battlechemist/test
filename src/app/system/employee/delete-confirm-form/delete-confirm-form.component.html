@@ -1,0 +1,15 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="text-center">
+      <h4 class="text-danger">Удаление данных!</h4>
+      <div>
+        <span>Подтвердите удаление данных о сотруднике:</span>
+      </div>
+      <span><strong>{{name}}</strong></span>
+    </div>
+    <div class="text-right margin-top">
+      <button class="btn btn-danger btn-margin" (click)="deleteClickOn()" [disabled]="delay">Удалить</button>
+      <button class="btn btn-success btn-margin" (click)="cancelClickOn()" [disabled]="delay">Отмена</button>
+    </div>
+  </div>
+</div>

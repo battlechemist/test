@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "userType": "admin",
+      "name": "Петров И.И.",
+      "email": "admin@mail.ru",
+      "password": "12345"
+    },
+    {
+      "id": 2,
+      "userType": "user",
+      "name": "Иванов П.П.",
+      "email": "user@mail.ru",
+      "password": "12345"
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "name": "Демьянов Пётр Сергеевич",
+      "position": "ведущий инженер",
+      "age": 40,
+      "salary": 80000,
+      "typeOfEmployment": 1,
+      "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias culpa dolorem dolores earum enim, esse eveniet harum libero magni perspiciatis, quis reprehenderit. Distinctio iusto nesciunt non porro quaerat ratione repudiandae voluptate! Eum ex excepturi fuga odio repellat? Animi, at, consectetur distinctio doloremque dolores eligendi et labore maxime, nobis perferendis sed?"
+    },
+    {
+      "id": 2,
+      "name": "Вдовина Галина Вячеславовна",
+      "position": "бухгалтер",
+      "age": 35,
+      "salary": 21350,
+      "typeOfEmployment": 2,
+      "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias culpa dolorem dolores earum enim, esse eveniet harum libero magni perspiciatis, quis reprehenderit. Distinctio iusto nesciunt non porro quaerat ratione repudiandae voluptate! Eum ex excepturi fuga odio repellat? Animi"
+    },
+    {
+      "id": 3,
+      "name": "Заболотный Дмитрий Валерьевич",
+      "position": "инженер-наладчик",
+      "age": 28,
+      "salary": 37000,
+      "typeOfEmployment": 3,
+      "bio": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias culpa dolorem dolores earum enim, esse eveniet harum libero magni perspiciatis, quis reprehenderit. Distinctio iusto nesciunt non porro quaerat ratione repudiandae voluptate!"
+    }
+  ]
+}

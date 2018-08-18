@@ -1,0 +1,59 @@
+.system {
+  background-color: white;
+}
+
+.system-header {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #848488;
+}
+
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.system-helper0 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.system-helper1 {
+  display: inherit;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.user-type {
+  line-height: 2;
+}
+
+.system-main {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+
+.system-text {
+  font-size: 180%;
+  font-weight: bold;
+}
+
+.system-footer {
+  background-color: white;
+  border-top: 2px solid #848488;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  height: 200px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

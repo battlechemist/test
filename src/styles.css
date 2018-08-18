@@ -1,0 +1,21 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background-color: #848488;
+  font-size: 16px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1010;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.btn-margin {
+  margin: 3px;
+}
+
