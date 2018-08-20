@@ -1,3 +1,8 @@
+# JSON-server, concurrently и запуск сервера
+
+Проект использует в качестве сервера json-server и concurrently для запуска сервера одной командой.
+Для запуска проекта наберите `npm run dev`
+
 # StuffBase
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
