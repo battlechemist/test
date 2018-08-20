@@ -1,7 +1,7 @@
 # JSON-server, concurrently и запуск сервера
 
 Проект использует в качестве сервера json-server и concurrently для запуска сервера одной командой.
-Для запуска проекта наберите `npm run dev`
+Для запуска проекта наберите `npm run dev`. Сервер разработки стартует на `http://localhost:4200`, json-server - `http://localhost:3000`.
 
 # StuffBase
 
