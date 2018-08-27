@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/internal/operators';
 
-import { IUser} from '../shared/models/user.model';
-import { AuthService } from '../shared/services/auth.service';
-import { DataService } from '../shared/services/data.service';
-import { EmployeesService } from '../shared/services/employees.service';
-import { IEmployee } from '../shared/models/employee.model';
+import { IUser} from '../models/user.model';
+import { UserService } from '../services/user.service';
+import { EmployeesService } from '../services/employees.service';
+import { IEmployee } from '../models/employee.model';
+import { IType } from '../models/type.model';
+import { EmploymentTypesService } from '../services/employment-types.service';
 
 @Component({
   selector: 'sd-system',
@@ -18,6 +18,7 @@ export class SystemComponent implements OnInit, OnDestroy {
 
   user: IUser;
   employees: IEmployee[] = [];
+  employmentTypes: IType[];
 
   editEmployee: IEmployee;
 
@@ -30,26 +31,41 @@ export class SystemComponent implements OnInit, OnDestroy {
     user: 'Пользователь'
   };
 
-  isLoaded = false;
-  modalWindowIsVisible = false;
-
-  sub1: Subscription;
+  sub2: Subscription;
 
   constructor(
-    private authService: AuthService,
-    private dataService: DataService,
+    private userService: UserService,
     private employeesService: EmployeesService,
+    private employmentTypesService: EmploymentTypesService,
     private router: Router
   ) { }
 
+  sub: Subscription = this.employeesService.provideEmployees()
+    .subscribe((data: IEmployee[]) => {
+      this.employees = data;
+    });
+
   ngOnInit() {
-    this.getEmployees();
     this.getUser();
+    this.employeesService.writeDownGet();
+    this.getEmploymentTypes();
+  }
+
+  getIsLoaded() {
+    return this.employeesService.getIsLoaded();
+  }
+
+  getModalWindowStatus() {
+    return this.employeesService.getModalWindowStatus();
   }
 
   openModal(data: number) {
+    // Как вариант, можно передавать весь объект employee, тогда можно обойтись без
+    // без фильтрации массива
     if (data !== -1) {
-      this.editEmployee = this.employees[data];
+      this.editEmployee = this.employees.filter((e) => {
+        return e.id === data;
+      })[0];
     } else {
       this.editEmployee = {
         id: null,
@@ -61,40 +77,28 @@ export class SystemComponent implements OnInit, OnDestroy {
         bio: ''
       };
     }
-    this.modalWindowIsVisible = true;
+    this.employeesService.changeModalWindowStatus();
   }
 
   closeModal() {
-    this.modalWindowIsVisible = false;
+    this.employeesService.changeModalWindowStatus();
   }
 
   logout() {
-    this.authService.logout();
+    this.employeesService.changeIsLoaded();
     this.router.navigate(['/login']);
   }
 
-  getEmployees() {
-    this.sub1 = this.employeesService.getEmployees()
-      .pipe(delay(2000))
-      .subscribe((data: IEmployee[]) => {
-        this.employees = data;
-        this.isLoaded = true;
+  getEmploymentTypes() {
+    this.sub2 = this.employmentTypesService.getEmploymentTypes()
+      .subscribe((data: IType[]) => {
+        this.employmentTypesService.setEmploymentTypes(data);
+        this.employmentTypes = data;
       });
   }
 
   getUser() {
-    this.user = this.dataService.getUser();
-  }
-
-  onSubmit() {
-    this.isLoaded = false;
-    this.closeModal();
-    this.getEmployees();
-  }
-
-  onDelete() {
-    this.isLoaded = false;
-    this.getEmployees();
+    this.user = this.userService.getUser();
   }
 
   changeCriteria(field: string) {
@@ -110,9 +114,13 @@ export class SystemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
+
   }
 
 }

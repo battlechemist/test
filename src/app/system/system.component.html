@@ -2,11 +2,11 @@
   <!--HEADER-->
   <div class="row system-header sticky-top">
     <div class="col-xs-10">
-      <div class="system-helper0">
+      <div class="system-flex-menu">
         <div>
           <img src="../../assets/img.png" >
         </div>
-        <div class="system-helper1">
+        <div class="system-user-info">
           <span class="user-name">{{user.name}}</span>
           <span class="user-type">{{userMap[user.userType]}}</span>
         </div>
@@ -22,15 +22,14 @@
   <!--MAIN-->
   <!--MODAL-->
   <sd-system-form
-    *ngIf="modalWindowIsVisible"
+    *ngIf="getModalWindowStatus()"
     [editEmployee]="editEmployee"
     (formIsCanceled)="closeModal()"
-    (formIsSubmitted)="onSubmit()"
   ></sd-system-form>
   <!--/MODAL-->
   <div class="row system-main">
     <div class="col-xs-12">
-      <div class="system-helper0">
+      <div class="system-flex-menu">
         <span class=" text-primary system-text">Реестр сотрудников</span>
         <button
           (click)="openModal(-1)"
@@ -55,10 +54,10 @@
           <div class="btn-group btn-margin" sdDropdown>
             <button
               type="button"
-              class="btn btn-default dropdown-toggle"
+              class="btn btn-default dropdown-toggle btn-const-width"
               data-toggle="dropdown"
             >
-              Параметр
+              {{searchPlaceholder}}
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu cursor-pointer">
@@ -73,13 +72,13 @@
       </div>
     </div>
     <div class="col-xs-12">
-      <sd-loader *ngIf="!isLoaded" class="text-center"></sd-loader>
-      <div *ngIf="isLoaded">
+      <sd-loader *ngIf="!getIsLoaded()" class="text-center"></sd-loader>
+      <div *ngIf="getIsLoaded()">
         <sd-employee
           *ngFor="let e of employees | sdFilter:searchValue:searchField, let ndx = index "
           [employee]="e"
           [userType]="user.userType"
-          (employeeIsDeleted)="onDelete()"
+          [employmentTypes]="employmentTypes"
           (editModalIsOpen)="openModal($event)"
         >
         </sd-employee>

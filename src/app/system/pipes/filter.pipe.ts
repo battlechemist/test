@@ -1,12 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { TypeModel } from '../models/type.model';
+import { EmploymentTypesService } from '../../services/employment-types.service';
 
 @Pipe ({
   name: 'sdFilter'
 })
 
 export class FilterPipe implements PipeTransform {
+
+  constructor(private employmentTypesService: EmploymentTypesService) {}
+
   transform(items: any, value: string, field: string): any {
     if (items.length === 0 || !value) {
       return items;
@@ -15,7 +18,7 @@ export class FilterPipe implements PipeTransform {
     return items.filter((i) => {
       const t = Object.assign({}, i);
       if (field === 'typeOfEmployment') {
-        const types = TypeModel;
+        const types = this.employmentTypesService.employmentTypes;
         t[field] = types[t[field] - 1].type;
       }
 

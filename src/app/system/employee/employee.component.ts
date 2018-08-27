@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/internal/operators';
 
-import { IEmployee } from '../../shared/models/employee.model';
-import { EmployeesService } from '../../shared/services/employees.service';
-import { TypeModel } from '../../shared/models/type.model';
+import { IEmployee } from '../../models/employee.model';
+import { EmployeesService } from '../../services/employees.service';
+import { IType } from '../../models/type.model';
 
 @Component({
   selector: 'sd-employee',
@@ -16,25 +15,18 @@ export class EmployeeComponent implements OnInit, OnDestroy {
 
   @Input() employee: IEmployee;
   @Input() userType: string;
+  @Input() employmentTypes: IType[];
 
-  @Output() employeeIsDeleted = new EventEmitter();
   @Output() editModalIsOpen = new EventEmitter();
 
   deleteFormIsVisible = false;
   delay = false;
-
-  // typeMap = ['полная', 'частичная', 'временная'];
-  employmentTypes = TypeModel;
-  typeMap = [];
 
   sub1: Subscription;
 
   constructor(private employeesService: EmployeesService) { }
 
   ngOnInit() {
-    if (this.employee.position === '') {
-      this.employee.position = '*не задано*';
-    }
   }
 
   openModal() {
@@ -48,12 +40,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   onSubmit(data: boolean) {
     if (data === true) {
       this.delay = true;
-      this.sub1 = this.employeesService.deleteEmployee(this.employee.id)
-        .pipe(delay(500))
-        .subscribe(() => {
-          this.delay = false;
-          this.employeeIsDeleted.emit();
-        });
+      this.employeesService.writeDownDelete(this.employee.id);
     }
     if (!this.delay) {
       this.closeModal();
@@ -61,7 +48,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
 
   openEditModal() {
-    this.editModalIsOpen.emit(this.employee.id - 1);
+    this.editModalIsOpen.emit(this.employee.id);
   }
 
   ngOnDestroy() {

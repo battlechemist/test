@@ -46,7 +46,7 @@
             Пароль не должен быть пустым!
           </span>
           <span *ngIf="form.get('password')
-            .errors['lengthError']"
+            .errors['minlength']"
                 class="text-danger"
           >
             Пароль не должен быть короче {{charsCount}}-х символов!

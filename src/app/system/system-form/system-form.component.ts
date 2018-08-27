@@ -1,25 +1,23 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/internal/operators';
 
-import { EmployeesService } from '../../shared/services/employees.service';
-import { IEmployee } from '../../shared/models/employee.model';
-import { TypeModel } from '../../shared/models/type.model';
+import { EmployeesService } from '../../services/employees.service';
+import { IEmployee } from '../../models/employee.model';
+import { EmploymentTypesService } from '../../services/employment-types.service';
+import { IType } from '../../models/type.model';
 
 @Component({
   selector: 'sd-system-form',
   templateUrl: './system-form.component.html',
   styleUrls: ['./system-form.component.css']
 })
-export class SystemFormComponent implements OnInit, OnDestroy {
+export class SystemFormComponent implements OnInit {
 
   @Input() editEmployee: IEmployee;
 
   @Output() formIsCanceled = new EventEmitter();
-  @Output() formIsSubmitted = new EventEmitter();
 
-  employmentTypes = TypeModel;
+  employmentTypes: IType[];
 
   message = 'Добавление нового сотрудника';
 
@@ -30,14 +28,16 @@ export class SystemFormComponent implements OnInit, OnDestroy {
   charsCount = 255;
   bioCharsCount = 1000;
 
-  sub1: Subscription;
+  constructor(private employeesService: EmployeesService,
+              private employmentTypesService: EmploymentTypesService) { }
 
-  constructor(private employeesService: EmployeesService) { }
 
   ngOnInit() {
     if (this.editEmployee.id !== null) {
       this.message = 'Изменение данных о сотруднике';
     }
+
+    this.employmentTypes = this.employmentTypesService.employmentTypes;
 
     this.form = new FormGroup({
       name: new FormControl(
@@ -87,19 +87,9 @@ export class SystemFormComponent implements OnInit, OnDestroy {
     };
 
     if (this.editEmployee.id === null) {
-      this.sub1 = this.employeesService.createNewEmployee(employee)
-        .pipe(delay(500))
-        .subscribe(() => {
-          this.delay = false;
-          this.formIsSubmitted.emit();
-        });
+      this.employeesService.writeDownCreate(employee);
     } else {
-      this.sub1 = this.employeesService.editEmployee(employee, this.editEmployee.id)
-        .pipe(delay(500))
-        .subscribe(() => {
-          this.delay = false;
-          this.formIsSubmitted.emit();
-        });
+      this.employeesService.writeDownEdit(employee, this.editEmployee.id);
     }
   }
 
@@ -123,9 +113,4 @@ export class SystemFormComponent implements OnInit, OnDestroy {
   //   return null;
   // }
 
-  ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
-    }
-  }
 }
